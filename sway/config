@@ -1,0 +1,313 @@
+# Ansible managed message here
+
+#==================================================================================#
+# Sway Window Manager Configuration File                                           #
+#----------------------------------------------------------------------------------#
+# Purpose: This configuration file enables you to tweak keyboard shortcuts, adjust #
+# themes and colors, set the wallpaper, and more.                                  #
+#                                                                                  #
+# License: Creative Commons Attribution 4.0 International                          #
+#                                                                                  #
+# Pro-tip: While using Sway, you can trigger this configuration to be re-read by   #
+# pressing Super + Shift + C.                                                      #
+#==================================================================================#
+
+#======#
+# Misc #
+#======#
+# Include system configs FIRST (before custom settings)
+include /etc/sway/config-vars.d/*
+include /etc/sway/config.d/*
+
+# Enable XWayland support
+xwayland enable
+
+# Set environment for Wayland and portals
+# FIXED: Removed recursive sway launch
+# FIXED: Uncommented essential D-Bus and systemd integration
+exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
+exec systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
+
+
+#========================#
+# Appearance and Theming #
+#========================#
+# Declare Colors:
+set $background #332b2b
+set $color_urgent #fb4934
+set $text_color #ffffff
+set $title_bg_unfocused #666666
+set $title_outline_active #0e844e
+set $title_outline_unfocused #332b2b
+
+# Set Colors:           Border                   Background          Text          Indicator             Child Border
+client.background       $background
+client.focused          $title_outline_active    $background         $text_color   $title_outline_active $title_outline_active
+client.focused_inactive $title_outline_unfocused $background         $text_color   $text_color           $title_outline_unfocused
+client.unfocused        $title_outline_unfocused $title_bg_unfocused $text_color   $title_outline_active
+client.urgent           $color_urgent            $color_urgent       $color_urgent $color_urgent         $color_urgent
+
+# Add gaps in between all application windows:
+gaps inner 8
+
+# No gaps at screen edges (windows use full screen space under bar)
+gaps outer 0
+
+# Configure the default border:
+default_border pixel 2
+
+# Set the Wallpaper:
+output * bg $HOME/.config/sway/wallpaper.jpg fill
+# Built-in display (laptop)
+output eDP-1 resolution 1366x768 position 0,0 scale 1
+
+# External display (HP LA1751)
+output HDMI-A-1 resolution 1280x1024 position 1366,0
+
+
+#====================================#
+# Activate the panel                 #
+#====================================#
+# Set the waybar command for the application launcher:
+bar {
+    swaybar_command waybar
+}
+
+
+#====================================#
+# Keyboard Shortcuts (Sway-specific) #
+#====================================#
+# Set the modifier key to super:
+set $mod Mod4
+
+# Set the ALT key to $alt (since Mod1 is harder to remember):
+set $alt Mod1
+
+# Set up a shortcut to reload this config file:
+bindsym $mod+Shift+c reload
+
+# Quit your current session and return to the log-in manager/tty:
+bindsym $mod+Shift+e exec $HOME/.config/sway/exit.sh
+
+# Screen locking (automatic)
+set $lock swaylock -c 000000
+exec swayidle -w \
+    timeout 300 'swaymsg "output * dpms off"' \
+    resume 'swaymsg "output * dpms on"' \
+    timeout 301 '$lock' \
+    before-sleep '$lock'
+
+# Screen locking (manual)
+set $lock_screen bash ~/.config/sway/lock_screen.sh
+bindsym $mod+Escape exec $lock_screen
+#========================================#
+# Keyboard Shortcuts (Window Management) #
+#========================================#
+# Move focus to another window:
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# Move focus to another window ("cult of vim" version):
+bindsym $mod+j focus down
+bindsym $mod+h focus left
+bindsym $mod+l focus right
+bindsym $mod+k focus up
+
+# Move the window:
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# Move the the window ("cult of vim" version):
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+
+# Hold the modifier key and hold the left/right mouse button
+# to drag or resize a window respectively. This isn't exclusive
+# to floating windows:
+floating_modifier $mod normal
+
+# Resizing containers:
+mode "resize" {
+    # Resize windows with arrow keys:
+    bindsym Left resize shrink width 10px
+    bindsym Down resize grow height 10px
+    bindsym Up resize shrink height 10px
+    bindsym Right resize grow width 10px
+
+    # "cult of vim" version:
+    bindsym h resize shrink width 10px
+    bindsym j resize grow height 10px
+    bindsym k resize shrink height 10px
+    bindsym l resize grow width 10px
+
+    # Return to default mode
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+r mode "resize"
+
+
+#=================================#
+# Keyboard Shortcuts (Workspaces) #
+#=================================#
+# Switch to workspace
+set $ws1 "1 - SC1"
+set $ws2 "2 - SC2"
+set $ws3 "3 - SC3"
+set $ws4 "4 - SC4"
+set $ws5 "5 - SC5"
+set $ws6 "6 - SC6"
+set $ws7 "7 - SC7"
+set $ws8 "8 - SC8"
+set $ws9 "9 - SC9"
+
+# Move between workspaces
+bindsym $mod+1 workspace $ws1
+bindsym $mod+2 workspace $ws2
+bindsym $mod+3 workspace $ws3
+bindsym $mod+4 workspace $ws4
+bindsym $mod+5 workspace $ws5
+bindsym $mod+6 workspace $ws6
+bindsym $mod+7 workspace $ws7
+bindsym $mod+8 workspace $ws8
+bindsym $mod+9 workspace $ws9
+
+# Move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace $ws1
+bindsym $mod+Shift+2 move container to workspace $ws2
+bindsym $mod+Shift+3 move container to workspace $ws3
+bindsym $mod+Shift+4 move container to workspace $ws4
+bindsym $mod+Shift+5 move container to workspace $ws5
+bindsym $mod+Shift+6 move container to workspace $ws6
+bindsym $mod+Shift+7 move container to workspace $ws7
+bindsym $mod+Shift+8 move container to workspace $ws8
+bindsym $mod+Shift+9 move container to workspace $ws9
+
+
+#=============================#
+# Keyboard Shortcuts (Layout) #
+#=============================#
+# You can "split" the current object of your focus with
+# $mod+b or $mod+v, for horizontal and vertical splits
+# respectively.
+bindsym $mod+b splith
+bindsym $mod+v splitv
+
+# Switch the current container between different layout styles
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+# Make the current focus fullscreen
+bindsym $mod+f fullscreen
+
+# Toggle the current focus between tiling and floating mode
+bindsym $mod+Shift+f floating toggle
+
+# Swap focus between the tiling area and the floating area
+bindsym $mod+tab focus mode_toggle
+
+# Move focus to the parent container
+bindsym $mod+a focus parent
+
+
+#=================================#
+# Keyboard Shortcuts (Scratchpad) #
+#=================================#
+# Sway has a "scratchpad", which is a bag of holding for windows.
+# You can send windows there and get them back later.
+
+# Move the currently focused window to the scratchpad
+bindsym $mod+Shift+minus move scratchpad
+
+# Show the next scratchpad window or hide the focused scratchpad window.
+# If there are multiple scratchpad windows, this command cycles through them.
+bindsym $mod+minus scratchpad show
+
+
+#===============================#
+# Keyboard Shortcuts (Hardware) #
+#===============================#
+# Audio
+bindsym XF86AudioRaiseVolume exec "wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+; pkill -RTMIN+8 waybar"
+bindsym XF86AudioLowerVolume exec "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-; pkill -RTMIN+8 waybar"
+bindsym XF86AudioMute exec "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle; pkill -RTMIN+8 waybar"
+
+# Brightness
+bindsym XF86MonBrightnessDown exec light -U 10
+bindsym XF86MonBrightnessUp exec light -A 10
+
+
+#=============================================#
+# Keyboard Shortcuts (launching applications) #
+#=============================================#
+# Set up wofi to replace dmenu as the launcher of choice:
+# FIXED: Proper quoting and syntax
+set $menu wofi --show drun -i 
+
+# Launch your browser:
+bindsym $mod+shift+b exec firefox
+
+# Open a file manager:
+bindsym ctrl+$mod+f exec pcmanfm
+
+# Open a terminal emulator:
+set $term kitty
+bindsym $mod+t exec $term
+
+# Kill focused window:
+bindsym $mod+Shift+q kill
+
+# Open the application launcher:
+bindsym $mod+space exec $menu
+
+# Open the application launcher (alternate version):
+bindsym $mod+d exec $menu
+
+# Launch default terminal
+bindsym $mod+Return exec kitty
+
+# Launch Zen Browser
+bindsym $alt+r exec zen
+
+# Launch Obsidian
+bindsym $alt+p exec obsidian --enable-features=UseOzonePlatform --ozone-platform=wayland
+
+# Launch Kitty
+bindsym $alt+t exec kitty
+
+# Screenshot shortcuts (using grim + slurp)
+
+# 🖼️ Full screen screenshot (save to ~/Pictures)
+bindsym Print exec grim ~/Pictures/screenshot-$(date +%F_%T).png
+
+# 📐 Select area screenshot (save to ~/Pictures)
+bindsym Shift+Print exec grim -g "$(slurp)" ~/Pictures/screenshot-$(date +%F_%T).png
+
+# 🪟 Active window screenshot (approximate: select window manually)
+bindsym Ctrl+Print exec grim -g "$(slurp -d)" ~/Pictures/window-$(date +%F_%T).png
+
+# 📋 Screenshot to clipboard (copy selected area)
+bindsym $alt+Print exec grim -g "$(slurp)" - | wl-copy
+
+
+#=============================#
+# Input Configuration         #
+#=============================#
+# Keyboard layout configuration
+input type:keyboard {
+    xkb_layout "us,ara"
+    xkb_options "grp:alt_space_toggle"
+}
+
+# Touchpad configuration
+input "type:touchpad" {
+    tap enabled
+    tap_button_map lrm
+}

@@ -1,0 +1,49 @@
+{
+  "layer": "top",
+  "position": "top",
+  "height": 30,
+  "modules-left": ["sway/workspaces"],
+  "modules-center": ["clock"],
+  "modules-right": ["tray", "pulseaudio", "bluetooth", "network", "cpu", "memory", "battery"],
+
+  "sway/workspaces": {
+    "disable-scroll": true,
+    "all-outputs": false,
+    "format": "{name}"
+  },
+
+  "tray": {
+    "icon-size": 18,
+    "spacing": 10
+  },
+
+  "clock": {
+    "interval": 1,
+    "format": "{:%a %b %d  %I:%M:%S %p}"
+  },
+
+  "pulseaudio": {
+    "format": "{icon} {volume}%",
+    "format-muted": " muted",
+    "format-icons": { "default": ["", ""] },
+    "on-click": "pavucontrol"
+  },
+
+  "bluetooth": { "format": " {status}", "on-click": "blueman-manager" },
+
+  "network": {
+    "format-wifi": " {signalStrength}%",
+    "format-ethernet": " eth",
+    "format-disconnected": "⚠ off",
+    "on-click": "nm-connection-editor"
+  },
+
+  "cpu": { "format": " {usage}%" },
+
+  "memory": { "format": " {}%" },
+
+  "battery": {
+    "format": "{icon} {capacity}%",
+    "format-icons": ["", "", "", "", ""]
+  }
+}

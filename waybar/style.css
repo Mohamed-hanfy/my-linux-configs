@@ -1,0 +1,42 @@
+* {
+    font-family: "JetBrainsMono Nerd Font", "Symbols Nerd Font", "JetBrains Mono", monospace;
+    font-size: 13px;
+    border: none;
+    border-radius: 0;
+}
+
+/* Pure Black Background */
+window#waybar {
+    background: #000000;
+    color: #ffffff;
+}
+
+#workspaces {
+    margin-left: 12px;
+}
+
+#workspaces button {
+    padding: 0 10px;
+    background: transparent;
+    color: #888888;
+}
+
+#workspaces button.focused {
+    color: #ffffff;
+    background: #222222;
+    border-bottom: 2px solid #ffffff;
+}
+
+#tray {
+    padding: 0 15px;
+}
+
+#clock,
+#pulseaudio,
+#bluetooth,
+#network,
+#cpu,
+#memory,
+#battery {
+    padding: 0 10px;
+}
