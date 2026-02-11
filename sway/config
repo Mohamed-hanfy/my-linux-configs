@@ -1,7 +1,7 @@
 # Ansible managed message here
 
 #==================================================================================#
-# Sway Window Manager Configuration File                                           #
+# Sway Window Manager Configuration File v1                                        #
 #----------------------------------------------------------------------------------#
 # Purpose: This configuration file enables you to tweak keyboard shortcuts, adjust #
 # themes and colors, set the wallpaper, and more.                                  #
