@@ -1,0 +1,48 @@
+window {
+    margin: 15px;
+    border: 3px solid #00ff00; /* Green border */
+    background-color: #1f1f1f;
+    font-family: "monospace"; /* Ensures clean text */
+}
+
+#input {
+    margin: 10px;
+    border: 2px solid #453e3d;
+    border-radius: 8px; /* Rounded corners look better on input */
+    background-color: #453e3d;
+    color: #ffffff;
+}
+
+#outer-box {
+    margin: 5px;
+    border: none;
+    background-color: #1f1f1f;
+}
+
+#inner-box {
+    margin: 5px;
+    background-color: #1f1f1f;
+}
+
+#text {
+    margin: 5px;
+    color: #ffffff; /* Added the # */
+}
+
+/* This highlights the app you are currently picking */
+#entry:selected {
+    background-color: #453e3d;
+    border-radius: 5px;
+    outline: none;
+}
+
+#entry:selected #text {
+    color: #00ff00; /* Text turns green when selected */
+}
+
+/* Remove the search icon */
+#input > image {
+    margin-right: -25px; /* Alternative way to hide icon space */
+    -gtk-icon-transform: scale(0);
+}
+

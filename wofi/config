@@ -1,0 +1,9 @@
+allow_images=true
+image_size=64
+width=600
+height=400 # Increased height so 6 lines + input fit comfortably
+insensitive=true
+mode=drun
+columns=1
+lines=6
+
