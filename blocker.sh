@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-API_KEY="J1TDIsFNhpOGgJ_xhhQOpPqTJtDnNz-n"  
+API_KEY="${CDN_FEATCH_API}"  
 
 # Check for required dependencies
 check_dependencies() {
